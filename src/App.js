@@ -132,9 +132,9 @@ export default function App() {
         pinTarget={pinTarget} setPinTarget={setPinTarget}
         pin={pin} setPin={setPin}
         pinError={pinError}
-        onSubmit={() => {
+        onSubmit={(enteredPin) => {
           const u = USERS[pinTarget];
-          if (pin === u.pin) { setUser(u); setPin(""); setPinError(false); }
+          if (enteredPin === u.pin) { setUser(u); setPin(""); setPinError(false); }
           else { setPinError(true); setPin(""); }
         }}
         onCancel={() => { setPinTarget(null); setPin(""); setPinError(false); }}
@@ -265,11 +265,7 @@ function LoginScreen({ pinTarget, setPinTarget, pin, setPin, pinError, onSubmit,
                     const next = pin + String(k);
                     setPin(next);
                     if (next.length === 4) {
-                      const u = USERS[pinTarget];
-                      setTimeout(() => {
-                        if (next === u.pin) { setUser(u); setPin(""); setPinError(false); }
-                        else { setPinError(true); setPin(""); }
-                      }, 300);
+                      setTimeout(() => onSubmit(next), 300);
                     }
                   }}>
                   {k}
