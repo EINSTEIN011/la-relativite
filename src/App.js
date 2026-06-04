@@ -262,9 +262,14 @@ function LoginScreen({ pinTarget, setPinTarget, pin, setPin, pinError, onSubmit,
                   onClick={() => {
                     if (k === "") return;
                     if (k === "⌫") { setPin(p => p.slice(0,-1)); return; }
-                    const next = pin + k;
-                    setPin(next);
-                    if (next.length === 4) setTimeout(onSubmit, 120);
+                    const next = pin + String(k);
+                    if (next.length === 4) {
+                      const u = USERS[pinTarget];
+                      if (next === u.pin) { setUser(u); setPin(""); setPinError(false); }
+                      else { setPinError(true); setPin(""); }
+                    } else {
+                      setPin(next);
+                    }
                   }}>
                   {k}
                 </button>
